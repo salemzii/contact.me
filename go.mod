@@ -1,3 +1,4 @@
+// +heroku goVersion go1.18
 module github.com/salemzii/contactInfo
 
 go 1.18
