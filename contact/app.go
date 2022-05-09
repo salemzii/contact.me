@@ -34,6 +34,15 @@ type AddContactResp struct {
 	Response string `json:"response"`
 }
 
+/*
+{
+  "name":"salemi",
+  "email":"salemi@gmail.com",
+  "phone_number":"80959023",
+  "home_address":"kano"
+}
+*/
+
 // Post request service to handle incoming contact data
 func AddContact(c *gin.Context) {
 
