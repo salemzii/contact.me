@@ -1,4 +1,17 @@
- ""
+### Machine Learning - The k-means algorithm
+
+
+Implementing the K-means clustering algorithm on the 4 dimensional, 3 dimensional csv dataset:
+
+
+## The Code:
+
+``
+    def read_csv():
+        x = []
+        y = []
+        labels = []
+        x_label = ""
         y_label = ""
         with open('../csc/aggregation.csv') as csvfile:
             reader = csv.reader(csvfile, delimiter=',')
@@ -18,95 +31,95 @@
                     print(', '.join(row))
                     lines += 1
     return x, y, x_label, y_label, labels
-``
-
-
-The k-mean clustering algorithm
-``
-#combine x and y into a 2D list of (x, y) pairs
-X = np.vstack((x, y)).T
-print(X)
-
-
-
-def find_clusters(X, n_clusters, rseed=2):
-    # choose clusters randomly
-    rng = np.random.RandomState(rseed)
-    i = rng.permutation(X.shape[0])[:n_clusters]
-    centers = X[i]
-
-    # This loop continues until convergence.
-    # You could make it run a set number of times by changing
-    # it to say while x > 5, for example, and removing the break
-    print("\nConverging centres:")
-    while True:
-    # using the pairwise_distances_argmin method to
-        # calculate distances between points to centres
-        labels = pairwise_distances_argmin(X, centers)
-
-        # 2b. Find new centers from means of points
-        new_centers = np.array([X[labels == i].mean(0) for i in
-        range(n_clusters)])
-
-        # 2c. Check for convergence
-        if np.all(centers == new_centers):
-            break
-        centers = new_centers
-
-        # Print centres of convergence
-        print(centers)
-        print()
-
-    return centers, labels
-
-
-
-    centers, labels = find_clusters(X, 3)
-
-
-
-plt.scatter(X[:, 0], X[:, 1], c=labels, s=50, cmap='viridis')
-plt.title('K-Means clustering of aggregation.csv dataset')
-plt.xlabel(x_label) # x-axis
-plt.ylabel(y_label) # y-axis
-plt.savefig("aggregates.png") # save plot image
-
-
-
-from sklearn.cluster import KMeans
-from sklearn import metrics
-from scipy.spatial.distance import cdist
-
-distortions = [] #average of the squared distances from the cluster centers of the respective clusters
-inertias = [] #sum of squared differences from the closest mean
-mapping1 = {}
-mapping2 = {}
-K = range(2, 11)
-
-for k in K:
-    # Building and fitting the model
-    kmeanModel = KMeans(n_clusters=k).fit(X)
-    kmeanModel.fit(X)
- 
-    distortions.append(sum(np.min(cdist(X, kmeanModel.cluster_centers_,
-                                        'euclidean'), axis=1)) / X.shape[0])
-    inertias.append(kmeanModel.inertia_)
- 
-    mapping1[k] = sum(np.min(cdist(X, kmeanModel.cluster_centers_,
-                                   'euclidean'), axis=1)) / X.shape[0]
-    mapping2[k] = kmeanModel.inertia_
 
 
 
 
-    # Tabulating the data
-    count = 0
-    for key, val in mapping1.items():
-        count += 1
-        print(f'{key} : {val}')
 
-    print(f"number of *k* is at the elbow of the plot = {count}")
-    print(f"How far away is the elbow from the number of actual classes (7)? = {count -7}")
+    #combine x and y into a 2D list of (x, y) pairs
+    X = np.vstack((x, y)).T
+    print(X)
+
+
+
+    def find_clusters(X, n_clusters, rseed=2):
+        # choose clusters randomly
+        rng = np.random.RandomState(rseed)
+        i = rng.permutation(X.shape[0])[:n_clusters]
+        centers = X[i]
+
+        # This loop continues until convergence.
+        # You could make it run a set number of times by changing
+        # it to say while x > 5, for example, and removing the break
+        print("\nConverging centres:")
+        while True:
+        # using the pairwise_distances_argmin method to
+            # calculate distances between points to centres
+            labels = pairwise_distances_argmin(X, centers)
+
+            # 2b. Find new centers from means of points
+            new_centers = np.array([X[labels == i].mean(0) for i in
+            range(n_clusters)])
+
+            # 2c. Check for convergence
+            if np.all(centers == new_centers):
+                break
+            centers = new_centers
+
+            # Print centres of convergence
+            print(centers)
+            print()
+
+        return centers, labels
+
+
+
+        centers, labels = find_clusters(X, 3)
+
+
+
+    plt.scatter(X[:, 0], X[:, 1], c=labels, s=50, cmap='viridis')
+    plt.title('K-Means clustering of aggregation.csv dataset')
+    plt.xlabel(x_label) # x-axis
+    plt.ylabel(y_label) # y-axis
+    plt.savefig("aggregates.png") # save plot image
+
+
+
+    from sklearn.cluster import KMeans
+    from sklearn import metrics
+    from scipy.spatial.distance import cdist
+
+    distortions = [] #average of the squared distances from the cluster centers of the respective clusters
+    inertias = [] #sum of squared differences from the closest mean
+    mapping1 = {}
+    mapping2 = {}
+    K = range(2, 11)
+
+    for k in K:
+        # Building and fitting the model
+        kmeanModel = KMeans(n_clusters=k).fit(X)
+        kmeanModel.fit(X)
+    
+        distortions.append(sum(np.min(cdist(X, kmeanModel.cluster_centers_,
+                                            'euclidean'), axis=1)) / X.shape[0])
+        inertias.append(kmeanModel.inertia_)
+    
+        mapping1[k] = sum(np.min(cdist(X, kmeanModel.cluster_centers_,
+                                    'euclidean'), axis=1)) / X.shape[0]
+        mapping2[k] = kmeanModel.inertia_
+
+
+
+
+        # Tabulating the data
+        count = 0
+        for key, val in mapping1.items():
+            count += 1
+            print(f'{key} : {val}')
+
+        print(f"number of *k* is at the elbow of the plot = {count}")
+        print(f"How far away is the elbow from the number of actual classes (7)? = {count -7}")
 ``
 
 ## Code Description:
@@ -161,4 +174,4 @@ Since task one was a one dimensional dataset, there was no need to combine it's 
 
 ## Conclusion 
 Running all taskes Task1, Task2 and Task3 respectively yields desired outputs of k-means for their varied data-points and dimensions. 
-From the exercises, we can boldly assume k-means clustering algorithms are good for grouping and clustering related chunks in a larger dataset together.
+From the exercises, we can boldly assume k-means clustering algorithms ar
